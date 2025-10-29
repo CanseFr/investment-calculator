@@ -1,10 +1,10 @@
-import {Injectable} from "@angular/core";
+import {Injectable, signal} from "@angular/core";
 import {InvestmentInput} from "../invest.model";
 import {WaitingType} from "./investment-results.component";
 
 @Injectable({providedIn: 'root'})
 export class InvestmentService {
-  resultsData?: WaitingType[];
+  resultsData = signal<WaitingType[] | undefined>(undefined)
 
   calculateInvestmentResults(data: InvestmentInput
   ) {
@@ -27,8 +27,8 @@ export class InvestmentService {
         totalAmountInvested: initialInvestment + annualInvestment * year,
       });
     }
+    this.resultsData.set(annualData)
 
-    this.resultsData = annualData;
   }
 
 }
